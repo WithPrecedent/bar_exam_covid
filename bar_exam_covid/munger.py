@@ -9,6 +9,7 @@
 import datetime
 from typing import Any, Callable, ClassVar, Iterable, Mapping, Sequence, Tuple
 
+import numpy as np
 import pandas as pd
 
 import bar_exam_covid
@@ -25,9 +26,15 @@ def get_covid_data(
         state: str,
         date: datetime.datetime,
         return_column: str) -> int:
-    match = covid_data[
+    match = covid_data.loc[
         (covid_data['date'] == date) & (covid_data['state'] == state)]
-    return match[return_column]
+    if len(match) == 1:
+        match = match[return_column].item()
+    elif len(match) == 0:
+        match = np.nan
+    else:
+        match = match[return_column].to_list()[0]
+    return match
 
 def add_covid_data(
         row: pd.Series, 
@@ -49,7 +56,7 @@ def add_covid_data(
                 state = row['state'],
                 date = date,
                 return_column = return_column)
-        row[f'current_weekly_{return_column}'] = (
+        row[f'current_date_weekly_{return_column}'] = (
             row[f'current_date_total_{return_column}']
             - row[f'current_date_previous_week_{return_column}'])
         row[f'policy_date_weekly_{return_column}'] = (

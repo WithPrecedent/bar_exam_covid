@@ -44,7 +44,10 @@ def fix_columns(
         df: pd.DataFrame, 
         datatypes: Mapping[str, Any]) -> pd.DataFrame:
     for key, value in datatypes.items():
-        df[key] = df[key].astype(value)
+        if value is bool:
+            df[key] = df[key].astype(int)
+        else:
+            df[key] = df[key].astype(value)
     df = df[list(datatypes.keys())]
     df['state'] = df['state'].str.strip()
     return df
@@ -69,6 +72,7 @@ def get_bar_exam_data() -> pd.DataFrame:
     data = worksheet.get_all_values()
     header = data.pop(0)
     df = pd.DataFrame(data, columns = header)
+    df.dropna(inplace = True)
     df = fix_columns(df = df, datatypes = BAR_EXAM_COLUMNS)
     df['policy_date'] = pd.to_datetime(
         df['policy_date'],  
