@@ -18,7 +18,7 @@ def category_plot(data: pd.DataFrame, first: str, second: str) -> object:
     return sns.catplot(
         x = 'state', 
         y = first, 
-        hue = second,
+        # hue = second,
         data = data,
         kind = 'bar')
 
@@ -44,4 +44,5 @@ def visualize(data: pd.DataFrame) -> Sequence[object]:
          & (data['remote_testing'] == 0)]
     visual_data = visual_data[visual_data['state'] != 'Guam']
     visual_data = visual_data[visual_data['state'] != 'Virgin Islands']
+    print('test state', visual_data['state'])
     return visualize_combinations(data = visual_data)

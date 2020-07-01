@@ -7,11 +7,14 @@
 """
 
 import pathlib
+
 import sys
 from typing import Any, Callable, ClassVar, Iterable, Mapping, Sequence, Tuple
 import warnings
 
-import bar_exam_covid
+import loader
+import munger
+import visualizer
 
 
 def _args_to_dict() -> Mapping[str, str]:
@@ -47,22 +50,22 @@ def main(folder: str = None) -> None:
     """
     # Sets 'folder' to current working directory, if not passed.
     folder = folder or pathlib.Path.cwd()
-    covid_data = bar_exam_covid.loader.get_covid_data()
-    bar_exam_data = bar_exam_covid.loader.get_bar_exam_data()
+    covid_data = loader.get_covid_data()
+    bar_exam_data = loader.get_bar_exam_data()
     bar_exam_data.dropna(axis = 0, inplace = True)
     bar_exam_data = bar_exam_data.apply(
-        bar_exam_covid.munger.add_covid_data,
+        munger.add_covid_data,
         covid_data = covid_data,
         axis = 1)
     bar_exam_data.to_csv('test_file.csv')
     bar_exam_data.dropna(inplace = True)
-    visualizations = bar_exam_covid.visualizer.visualize(data = bar_exam_data)
+    visualizations = visualizer.visualize(data = bar_exam_data)
     export_visuals(visualizations = visualizations)
     return
 
 def export_visuals(visualizations: Sequence[object]) -> None:
-    for visual in visualizations:
-        pass
+    for i, visual in enumerate(visualizations):
+        visual.savefig(f'plot_{i}.png')
     return
 
 if __name__ == '__main__':

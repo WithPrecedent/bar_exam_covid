@@ -7,13 +7,16 @@
 """
 
 
-from bar_exam_covid import loader
-from bar_exam_covid import munger
-from bar_exam_covid import visualizer
+import loader
+import munger
+import visualizer
 
 
 __version__ = '0.1.0'
 
 __author__ = 'Corey Rayburn Yung'
 
-__all__ = ['loader']
+__all__ = [
+    'loader',
+    'munger',
+    'visualizer']

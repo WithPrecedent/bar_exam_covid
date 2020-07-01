@@ -1,0 +1,11 @@
+Metadata-Version: 1.2
+Name: bar-exam-covid
+Version: 0.1.0
+Summary: data loading, munging, and visualizing for COVID-19-related bar exam accommodations in 2020
+Home-page: UNKNOWN
+Author: WithPrecedent
+Author-email: coreyrayburnyung@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.8,<4.0
